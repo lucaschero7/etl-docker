@@ -164,6 +164,20 @@ def get_list_stores():
     df = select_query_df(DataBase='CotyData', query="SELECT CODIGO_SUCURSAL FROM SUCURSALES WHERE VENTA_SUCURSAL = 1")
     return df['CODIGO_SUCURSAL'].astype(int).tolist()
 
+def get_date_range():
+    from datetime import date, timedelta
+    today = date.today()
+    today_weekday = today.weekday()
+    
+    if today_weekday == 0:
+        date_from = today - timedelta(days=3)
+        date_to = today - timedelta(days=1)
+    else:
+        date_from = today - timedelta(days=1)
+        date_to = date_from
+    
+    return date_from, date_to
+
 if __name__ == "__main__":
     # test = encrypt_env_file("credenciales.json", "credentials-encrypted.json", passw)
     # print(test)

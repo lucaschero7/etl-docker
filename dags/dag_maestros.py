@@ -3,23 +3,9 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 import pendulum
 from CotyData_IPN import *
-
+from utils import get_date_range
 
 local_tz = pendulum.timezone("America/Argentina/Buenos_Aires")
-
-def get_date_range():
-    from datetime import date, timedelta
-    today = date.today()
-    today_weekday = today.weekday()
-    
-    if today_weekday == 0:
-        date_from = today - timedelta(days=3)
-        date_to = today - timedelta(days=1)
-    else:
-        date_from = today - timedelta(days=1)
-        date_to = date_from
-    
-    return date_from, date_to
 
 # Configuración por defecto del DAG
 default_args = {
