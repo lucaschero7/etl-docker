@@ -14,3 +14,4 @@ logs/
 .idea/
 *.zip
 .env
+credentials-encrypted.json
