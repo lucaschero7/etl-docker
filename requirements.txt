@@ -1,0 +1,10 @@
+pandas==2.1.4
+SQLAlchemy==1.4.54
+PyMySQL==1.1.0
+cryptography==45.0.6
+requests==2.31.0
+pymongo==4.7.2
+openpyxl==3.1.2
+dnspython==2.7.0
+python-dateutil==2.9.0.post0
+pytz==2024.1

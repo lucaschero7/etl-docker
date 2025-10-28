@@ -1,0 +1,14 @@
+# Airflow
+airflow-standalone/logs/
+airflow-standalone/__pycache__/
+airflow-standalone/plugins/__pycache__/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE y otros
+.vscode/
+.idea/
+*.zip
