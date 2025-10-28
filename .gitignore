@@ -7,8 +7,10 @@ airflow-standalone/plugins/__pycache__/
 __pycache__/
 *.pyc
 *.pyo
+logs/
 
 # IDE y otros
 .vscode/
 .idea/
 *.zip
+.env
