@@ -1,19 +1,45 @@
 version: "3"
 services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      retries: 5
+
   airflow:
     image: apache/airflow:2.9.2
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
       - AIRFLOW_UID=50000
-      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
-      - _PIP_ADDITIONAL_REQUIREMENTS=-r /opt/airflow/requirements.txt
-    command: standalone
+      - _PIP_ADDITIONAL_REQUIREMENTS=psycopg2-binary
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./requirements.txt:/opt/airflow/requirements.txt
+    command: >
+      bash -c "
+      pip install -r /opt/airflow/requirements.txt &&
+      airflow db init &&
+      sleep 5 &&  
+      airflow db upgrade &&  
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
+      (airflow webserver & airflow scheduler)
+      "
     ports:
       - "8080:8080"
+
+volumes:
+  postgres_data:
