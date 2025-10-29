@@ -2,6 +2,7 @@
 airflow-standalone/logs/
 airflow-standalone/__pycache__/
 airflow-standalone/plugins/__pycache__/
+logs/
 
 # Python cache
 __pycache__/
