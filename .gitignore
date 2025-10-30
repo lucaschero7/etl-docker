@@ -3,6 +3,7 @@ airflow-standalone/logs/
 airflow-standalone/__pycache__/
 airflow-standalone/plugins/__pycache__/
 logs/
+credentials-encrypted.json
 
 # Python cache
 __pycache__/

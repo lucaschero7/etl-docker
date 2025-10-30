@@ -14,7 +14,6 @@ import hashlib
 passw = 'CotyData2025'
 
 # Funciones Reutilizables Generales
-
 def get_apikey():
 
     password = passw
@@ -159,15 +158,10 @@ def decrypt_env_file(input_file, output_file, password):
     except Exception as e:
         print(f"Error al desencriptar: {e}")
         return False
-    
+
 def get_list_stores():
     df = select_query_df(DataBase='CotyData', query="SELECT CODIGO_SUCURSAL FROM SUCURSALES WHERE VENTA_SUCURSAL = 1")
     return df['CODIGO_SUCURSAL'].astype(int).tolist()
 
 if __name__ == "__main__":
-    # test = encrypt_env_file("credenciales.json", "credentials-encrypted.json", passw)
-    # print(test)
-    
-    # test2 = decrypt_env_file("credentials-encrypted.json", "credenciales.env", passw)
-    # print(test2)
     pass
