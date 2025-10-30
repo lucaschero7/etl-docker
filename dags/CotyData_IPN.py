@@ -23,7 +23,7 @@ class apiLogs:
         self.totalRecords = totalRecords
         self.statusOk = statusOk
         self.errorMsg = errorMsg
-        self.TimeStamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        self.TimeStamp = get_current_timestamp()
         self.urlRequest = urlRequest 
 
     def getLogDict(self):
@@ -35,7 +35,7 @@ class apiLogs:
         "statusOk": self.statusOk,
         "errorMsg": self.errorMsg,
         "TimeStamp": self.TimeStamp,
-        "urlRequest": self.urlRequest + "/Airflow"        }
+        "urlRequest": self.urlRequest + "/airflow-by-docker"}
         return logDict
     
     def loadLog(self):
