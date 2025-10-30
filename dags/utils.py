@@ -9,6 +9,7 @@ from cryptography.fernet import Fernet
 import json
 import base64
 import hashlib
+import pendulum
 
 # Password Encryp
 passw = 'CotyData2025'
@@ -165,18 +166,29 @@ def get_list_stores():
     return df['CODIGO_SUCURSAL'].astype(int).tolist()
 
 def get_date_range():
-    from datetime import date, timedelta
-    today = date.today()
-    today_weekday = today.weekday()
+    """
+    Retorna un rango de fechas según el día de la semana.
+    - Lunes: desde el viernes anterior hasta el domingo
+    - Otros días: el día anterior
+    """
+    # Obtener la fecha actual en la zona horaria de Argentina
+    hoy = pendulum.now('America/Argentina/Buenos_Aires').date()
     
-    if today_weekday == 0:
-        date_from = today - timedelta(days=3)
-        date_to = today - timedelta(days=1)
+    # Si es lunes (0 = lunes, 6 = domingo)
+    if hoy.day_of_week == 0:
+        date_from = hoy.subtract(days=3)  # Viernes
+        date_to = hoy.subtract(days=1)    # Domingo
     else:
-        date_from = today - timedelta(days=1)
-        date_to = date_from
+        date_from = date_to = hoy.subtract(days=1)  # Ayer
     
     return date_from, date_to
+
+def get_current_timestamp():
+    """
+    Retorna el timestamp actual en formato 'YYYY-MM-DD HH:mm:ss.SSSSSS' usando la zona horaria de Argentina.
+    Ejemplo: '2025-10-30 16:50:23.123456'
+    """
+    return pendulum.now('America/Argentina/Buenos_Aires').strftime("%Y-%m-%d %H:%M:%S.%f")
 
 if __name__ == "__main__":
     # test = encrypt_env_file("credenciales.json", "credentials-encrypted.json", passw)
