@@ -24,7 +24,7 @@ dag = DAG(
     description='DAG para subir datos transaccionales de IPN a la base de datos',
     schedule=None,  
     catchup=False,
-    tags=['Ventas', 'IPN', 'Precios', 'Costos', 'ETL', 'Remitos'],
+    tags=['Transaccionales', 'IPN', 'Precios', 'Costos', 'Remito', 'Ventas', 'Compras', 'Recepciones', 'Recepciones_Mercaderia'],
 )
 
 def load_prices_airflow():
