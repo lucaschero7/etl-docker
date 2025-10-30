@@ -1,6 +1,7 @@
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 import pendulum
 from CotyData_IPN import *
 from utils import get_date_range
@@ -25,7 +26,7 @@ dag = DAG(
     'dag_subir_maestros',
     default_args=default_args,
     description='DAG para cargar maestros de IPN',
-    schedule='10 9 * * 1-5', 
+    schedule=None, 
     catchup=False,
     tags=['Pruebas', 'IPN', 'ETL', 'Familias', 'Categorias', 'Marcas', 'Atributos', 'Proveedores', 'Clientes']
 )
@@ -140,6 +141,11 @@ task9 = PythonOperator(
     python_callable=load_categories_oc_airflow,
     dag=dag,
 )
+trigger_dag_transaccionales = TriggerDagRunOperator(
+    task_id='trigger_dag_transaccionales',
+    trigger_dag_id='dag_subir_transaccionales',
+    dag=dag,
+)
 
 # Definir dependencias
-task1 >> task2 >> task3 >> task4 >> task5 >> task6 >> task7 >> task8>> task9
+task1 >> task2 >> task3 >> task4 >> task5 >> task6 >> task7 >> task8>> task9 >> trigger_dag_transaccionales
